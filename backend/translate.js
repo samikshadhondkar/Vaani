@@ -54,4 +54,11 @@ async function speechToTextTranslate(audioFilePath) {
   return response.data.transcript;
 }
 
-module.exports = { translateText, textToSpeech, speechToTextTranslate };
+async function processAudioChunk(audioFilePath, targetLanguage) {
+  const englishText = await speechToTextTranslate(audioFilePath);
+  const translatedText = await translateText(englishText, 'en-IN', targetLanguage);
+  const audioBase64 = await textToSpeech(translatedText, targetLanguage);
+  return { englishText, translatedText, audioBase64 };
+}
+
+module.exports = { translateText, textToSpeech, speechToTextTranslate, processAudioChunk };
