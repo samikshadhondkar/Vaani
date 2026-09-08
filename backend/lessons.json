@@ -1,0 +1,5 @@
+[
+  { "id": "1", "subject": "English", "text": "The sun rises in the east." },
+  { "id": "2", "subject": "Math", "text": "Two plus two equals four." },
+  { "id": "3", "subject": "Science", "text": "Water boils at one hundred degrees." }
+]
