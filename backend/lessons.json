@@ -1,5 +1,12 @@
 [
   { "id": "1", "subject": "English", "text": "The sun rises in the east." },
   { "id": "2", "subject": "Math", "text": "Two plus two equals four." },
-  { "id": "3", "subject": "Science", "text": "Water boils at one hundred degrees." }
+  { "id": "3", "subject": "Science", "text": "Water boils at one hundred degrees." },
+  { "id": "4", "subject": "English", "text": "The cat sat on the mat." },
+  { "id": "5", "subject": "Science", "text": "Plants need sunlight to grow." },
+  { "id": "6", "subject": "Math", "text": "Ten minus three equals seven." },
+  { "id": "7", "subject": "English", "text": "She reads a book every night." },
+  { "id": "8", "subject": "Science", "text": "The earth revolves around the sun." },
+  { "id": "9", "subject": "Math", "text": "Five times six equals thirty." },
+  { "id": "10", "subject": "General Knowledge", "text": "The Taj Mahal is located in Agra." }
 ]
