@@ -1,5 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
+const fs = require('fs');
+const FormData = require('form-data');
 
 const HEADERS = {
   'api-subscription-key': process.env.TRANSLATE_API_KEY,
@@ -31,7 +33,25 @@ async function textToSpeech(text, languageCode) {
     },
     { headers: HEADERS }
   );
-  return response.data.audios[0];
+  return response.data.audios.join(''); // combine ALL audio chunks
 }
 
-module.exports = { translateText, textToSpeech };
+async function speechToTextTranslate(audioFilePath) {
+  const form = new FormData();
+  form.append('file', fs.createReadStream(audioFilePath));
+  form.append('model', 'saaras:v3');
+
+  const response = await axios.post(
+    'https://api.sarvam.ai/speech-to-text-translate',
+    form,
+    {
+      headers: {
+        ...form.getHeaders(),
+        'api-subscription-key': process.env.TRANSLATE_API_KEY
+      }
+    }
+  );
+  return response.data.transcript;
+}
+
+module.exports = { translateText, textToSpeech, speechToTextTranslate };
