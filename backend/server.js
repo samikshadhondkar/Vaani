@@ -1,10 +1,13 @@
 const lessons = require('./lessons.json');
-const { translateText, textToSpeech } = require('./translate');
+const { translateText, textToSpeech, processAudioChunk } = require('./translate');
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
+const upload = multer({ dest: 'uploads/' });
 
 app.use(cors());
 app.use(express.json());
@@ -61,6 +64,29 @@ app.post('/getLesson', async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: 'Failed',
+      details: err.message
+    });
+  }
+});
+
+// Real-time voice endpoint — accepts mic audio from browser, returns translated text + speech
+app.post('/api/processAudio', upload.single('audio'), async (req, res) => {
+  try {
+    const targetLanguage = req.body.targetLanguage;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No audio file received' });
+    }
+
+    const audioPath = req.file.path;
+    const result = await processAudioChunk(audioPath, targetLanguage);
+
+    res.json(result);
+
+    fs.unlink(audioPath, () => {});
+  } catch (err) {
+    res.status(500).json({
+      error: 'Processing failed',
       details: err.message
     });
   }
